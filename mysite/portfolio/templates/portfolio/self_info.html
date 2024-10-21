@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Self Information</title>
+</head>
+<body>
+    <h1>Self Information</h1>
+    <ul>
+        {% for info in self_info %}
+            <li>
+                <strong>Name:</strong> {{ info.name }} <br>
+                <strong>Bio:</strong> {{ info.bio }} <br>
+            </li>
+            <hr>
+        {% empty %}
+            <p>No information found.</p>
+        {% endfor %}
+    </ul>
+</body>
+</html>

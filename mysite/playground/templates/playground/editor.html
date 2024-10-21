@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text to Audio and Video Editor</title>
+    <link rel="stylesheet" href="/../static/playground/css/styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Text Input Section -->
+        <div class="section" id="text-section">
+            <h2>Enter Text to Generate Audio</h2>
+            <textarea id="input-text" placeholder="Type your text here..."></textarea>
+
+            <label for="gender">Select Gender:</label>
+            <select id="gender">
+                <option value="female">Female</option>
+                <option value="male">Male</option>
+            </select>
+
+            <label for="accent">Select Accent:</label>
+            <select id="accent">
+                <option value="en-US">American English</option>
+                <option value="en-GB">British English</option>
+                <!-- Add other accents as needed -->
+            </select>
+
+            <button id="generate-audio">Generate Audio</button>
+        </div>
+
+        <!-- Audio and Image Prompt Section -->
+        <div class="section" id="audio-analysis" style="display:none;">
+            <h2>Audio Analysis and Image Suggestions</h2>
+            <audio id="audio-player" controls></audio>
+            <p id="analysis-result">Analyzing audio...</p>
+            <div id="image-prompts">
+                <!-- Dynamically generated prompts will appear here -->
+            </div>
+            <button id="proceed-to-editor">Proceed to Video Editor</button>
+        </div>
+
+        <!-- Video Editor Section -->
+        <div class="section" id="video-editor" style="display:none;">
+            <h2>Video Editor</h2>
+            <div id="editor-tools">
+                <button class="edit-btn" id="crop">Crop</button>
+                <button class="edit-btn" id="resize">Resize</button>
+                <button class="edit-btn" id="extend">Extend</button>
+                <button class="edit-btn" id="overlap">Overlap</button>
+                <button class="edit-btn" id="add-subtitle">Add Subtitle</button>
+            </div>
+            <div id="video-preview">
+                <video id="output-video" controls></video>
+            </div>
+            <button id="export-video">Export Video</button>
+        </div>
+    </div>
+
+    <script src="/../static/playground/js/script.js"></script>
+</body>
+</html>

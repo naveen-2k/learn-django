@@ -1,0 +1,174 @@
+
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Text to Speech Converter</title>
+     <style>
+         body {
+             font-family: Arial, sans-serif;
+             background-color: #f4f4f9;
+             margin: 0;
+             padding: 0;
+             display: flex;
+             justify-content: center;
+             align-items: center;
+             height: 100vh;
+         }
+         .container {
+             background-color: #fff;
+             padding: 40px;
+             border-radius: 10px;
+             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+             text-align: center;
+             max-width: 600px;
+             width: 100%;
+         }
+         h1 {
+             font-size: 24px;
+             margin-bottom: 20px;
+         }
+ 
+         /* Style for Textarea */
+         textarea {
+             width: 100%;
+             padding: 15px;
+             margin-bottom: 20px;
+             border: 1px solid #ccc;
+             border-radius: 5px;
+             font-size: 16px;
+             line-height: 1.5;
+             resize: vertical;
+             height: 200px;  /* Adjust height for better readability */
+         }
+ 
+         select {
+             padding: 10px;
+             border: 1px solid #ccc;
+             border-radius: 5px;
+             margin-bottom: 20px;
+             width: 100%;
+         }
+         button {
+             background-color: #4CAF50;
+             color: white;
+             padding: 10px 20px;
+             border: none;
+             border-radius: 5px;
+             cursor: pointer;
+             font-size: 16px;
+         }
+         button:hover {
+             background-color: #45a049;
+         }
+         a {
+             display: inline-block;
+             margin-top: 20px;
+             text-decoration: none;
+             color: #007BFF;
+             font-weight: bold;
+         }
+         a:hover {
+             text-decoration: underline;
+         }
+ 
+         /* Spinner CSS */
+         .spinner {
+             display: none; /* Hidden initially */
+             border: 8px solid #f3f3f3;
+             border-top: 8px solid #3498db;
+             border-radius: 50%;
+             width: 40px;
+             height: 40px;
+             animation: spin 2s linear infinite;
+             margin: 20px auto;
+         }
+ 
+         @keyframes spin {
+             0% { transform: rotate(0deg); }
+             100% { transform: rotate(360deg); }
+         }
+ 
+         #downloadLink {
+             display: none;
+         }
+ 
+     </style>
+     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+     <script>
+         $(document).ready(function(){
+             $('#generateAudio').click(function(){
+                 var text = $('#textInput').val();
+                 var gender = $('#voiceGender').val();
+                 var accent = $('#voiceAccent').val();
+ 
+                 if (text.trim() === "") {
+                     alert('Please enter some text.');
+                     return;
+                 }
+ 
+                 // Show spinner
+                 $('#spinner').show();
+ 
+                 $.ajax({
+                    url: '/playground/generate_audio/',
+                    method: 'POST',
+                    data: JSON.stringify({ 
+                        text: text,
+                        gender: gender,
+                        accent: accent
+                    }),
+                    contentType: 'application/json',
+                    success: function(response) {
+                        $('#spinner').hide();
+                        console.log({response});
+                        // Set the download links for both audio and text files
+                        $('#downloadAudioLink').attr('href', response.audio_url).show();
+                        $('#downloadTextLink').attr('href', response.text_url).show();
+                    },
+                    error: function() {
+                        $('#spinner').hide();
+                        alert('Error generating audio.');
+                    }
+                });
+
+             });
+         });
+     </script>
+ </head>
+ <body>
+ 
+     <div class="container">
+         <h1>Text to Speech Converter</h1>
+ 
+         <!-- Replace input with a larger textarea for better readability -->
+         <textarea id="textInput" placeholder="Enter your text or paragraph here..."></textarea>
+ 
+         <!-- Select Gender -->
+         <select id="voiceGender">
+             <option value="female">Female</option>
+             <option value="male">Male</option>
+         </select>
+ 
+         <!-- Select Accent -->
+         <select id="voiceAccent">
+             <option value="en-US">American English (en-US)</option>
+             <option value="en-GB">British English (en-GB)</option>
+             <option value="en-AU">Australian English (en-AU)</option>
+         </select>
+ 
+         <button id="generateAudio">Generate Audio</button>
+ 
+         <!-- Loading Spinner -->
+         <div id="spinner" class="spinner"></div>
+ 
+         <!-- Download Link -->
+         <a id="downloadAudioLink" style="display:none;" href="#">Download Audio</a>
+<a id="downloadTextLink" style="display:none;" href="#">Download Text</a>
+
+     </div>
+ 
+ </body>
+ </html>
+ 
