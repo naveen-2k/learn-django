@@ -65,6 +65,7 @@ DATABASES = {
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
+    '13.60.236.148',
     '9000-idx-learn-django-1727164340031.cluster-3g4scxt2njdd6uovkqyfcabgo6.cloudworkstations.dev',
 ]
 
