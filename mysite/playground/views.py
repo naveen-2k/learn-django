@@ -8,11 +8,13 @@ from django.conf import settings
 from datetime import datetime
 from django.shortcuts import render
 import logging
+from .models import FlamesResult
+
 
 logger = logging.getLogger(__name__)
 
 
-@csrf_exempt
+
 def generate_audio(request):
     if request.method == 'POST':
         try:
@@ -103,5 +105,112 @@ def editor(request):
 def adotxt(request):
     # logger.debug('This is a debug message')
     return render(request,'playground/adotxt.html')
+
+
+
+
+# @csrf_exempt
+# def flames_game(request):
+#     if request.method == 'POST':
+#         try:
+#             body = json.loads(request.body)
+#             name1 = body.get('name1', '').strip().lower()
+#             name2 = body.get('name2', '').strip().lower()
+
+#             if not name1 or not name2:
+#                 return JsonResponse({'error': 'Both names are required.'}, status=400)
+
+#             # Calculate Flames result
+#             combined = name1 + name2
+#             for char in name1:
+#                 if char in name2:
+#                     name1 = name1.replace(char, '', 1)
+#                     name2 = name2.replace(char, '', 1)
+
+#             remaining_count = len(name1 + name2)
+#             flames = list("FLAMES")
+#             while len(flames) > 1:
+#                 index = (remaining_count % len(flames)) - 1
+#                 if index >= 0:
+#                     flames = flames[index + 1:] + flames[:index]
+#                 else:
+#                     flames = flames[:len(flames) - 1]
+
+#             result = flames[0]
+#             result_mapping = {
+#                 "F": "Friends",
+#                 "L": "Love",
+#                 "A": "Affection",
+#                 "M": "Marriage",
+#                 "E": "Enemies",
+#                 "S": "Siblings",
+#             }
+
+#             final_result = result_mapping[result]
+
+#             # Save to database
+#             FlamesResult.objects.create(name1=name1, name2=name2, result=final_result)
+
+#             return JsonResponse({'result': final_result})
+#         except json.JSONDecodeError:
+#             return JsonResponse({'error': 'Invalid JSON data.'}, status=400)
+
+#     return JsonResponse({'error': 'Invalid request method.'}, status=405)
+
+
+
+@csrf_exempt
+def flames_game(request):
+    if request.method == 'POST':
+        try:
+            body = json.loads(request.body)
+            name1 = body.get('name1', '').strip().lower()
+            name2 = body.get('name2', '').strip().lower()
+            logger.debug(f'Received text: {name1}')
+            print(name1,name2)
+
+            if not name1 or not name2:
+                return JsonResponse({'error': 'Both names are required.'}, status=400)
+
+            # Calculate Flames result
+            combined = name1 + name2
+            for char in name1:
+                if char in name2:
+                    name1 = name1.replace(char, '', 1)
+                    name2 = name2.replace(char, '', 1)
+
+            remaining_count = len(name1 + name2)
+            flames = list("FLAMES")
+            while len(flames) > 1:
+                index = (remaining_count % len(flames)) - 1
+                if index >= 0:
+                    flames = flames[index + 1:] + flames[:index]
+                else:
+                    flames = flames[:len(flames) - 1]
+
+            result = flames[0]
+            result_mapping = {
+                "F": "Friends",
+                "L": "Love",
+                "A": "Affection",
+                "M": "Marriage",
+                "E": "Enemies",
+                "S": "Siblings",
+            }
+
+            final_result = result_mapping[result]
+
+            # Save to database
+            FlamesResult.objects.create(name1=name1, name2=name2, result=final_result)
+
+            return JsonResponse({'result': final_result})
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON data.'}, status=400)
+
+    # Render the template for GET requests
+    return render(request, 'playground/flames.html')
+
+
+
 
 

@@ -8,6 +8,7 @@ urlpatterns = [
     path('download_audio/<str:file_type>/<str:file_name>/', views.download_audio),
     path('editor/', views.editor),
     path('adotxt/', views.adotxt),
+     path('flames_game/', views.flames_game),
     
     # Add more paths for other pages as needed
 ]

@@ -23,7 +23,7 @@ def resume(request):
 def resume1(request):
     return render(request, 'portfolio/resume1.html')
 
-# Suggested code may be subject to a license. Learn more: ~LicenseLog:2414545605.
+
 def projects(request):
     return render(request, 'portfolio/projects.html')
 

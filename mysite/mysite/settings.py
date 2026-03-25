@@ -100,11 +100,13 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    
 ]
 
 SESSION_COOKIE_SECURE = False  # Disable this during local development
 CSRF_COOKIE_SECURE = False  # Disable this during local development
-
+CORS_ALLOW_ALL_ORIGINS = True 
 ROOT_URLCONF = 'mysite.urls'
 
 TEMPLATES = [
